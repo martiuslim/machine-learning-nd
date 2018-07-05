@@ -12125,6 +12125,18 @@ This model has successfully captured the variation of the target variable as it 
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>notes</strong></p>
+<ul>
+<li><a href="http://blog.minitab.com/blog/adventures-in-statistics-2/regression-analysis-how-do-i-interpret-r-squared-and-assess-the-goodness-of-fit">Interpreting R2 score and goodness of fit</a></li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Implementation:-Shuffle-and-Split-Data">Implementation: Shuffle and Split Data<a class="anchor-link" href="#Implementation:-Shuffle-and-Split-Data">&#182;</a></h3><p>Your next implementation requires that you take the Boston housing dataset and split the data into training and testing subsets. Typically, the data is also shuffled into a random order when creating the training and testing subsets to remove any bias in the ordering of the dataset.</p>
 <p>For the code cell below, you will need to implement the following:</p>
 <ul>
@@ -12195,6 +12207,31 @@ This model has successfully captured the variation of the target variable as it 
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong>
 We want to ensure that our chosen model works well on future data, however as future data is not available, we can use a subset of the training data to use to evaluate the model. This is the testing subset. The testing subset is used to evaluate the model by observing the model performance on the testing data. This allows us to measure how generalized the model is or whether a certain algorithm is a good fit for the data. For example, using 100% of the data to train the model may result in a model that is overfitted as the model "memorizes" the data instead of learning it.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>notes</strong></p>
+<p>Here are a few additional points on why we split:</p>
+<ul>
+<li><p>Suppose you use all your data for training. What do you think will happen in this scenario?</p>
+</li>
+<li><p>Your model might overfit or underfit or it might be a good fit as well. If your model is underfitting you will know that from your train scores (which will be low). But if your model is overfitting, your train scores will be high. By first look it would seem you have done a great job in training, but most probably you have not. It is only after you test your model with the test set that you will know the real performance of your model. Using part of train set to test will always give good results if you are getting good train score (since your model is biased towards that data)</p>
+</li>
+<li><p>That’s why you always need a test set. But while training you cannot use your test set performance to improve your model, because that would make your model biased towards the test set. Hence you need to do cross-validation.</p>
+</li>
+</ul>
+<p>Further let me define the concepts of underfitting, overfitting and the concept of being a good fit:</p>
+<ul>
+<li>UNDERFITTING: In this scenario, the model is not able to learn from the training (it is too simple) and hence it doesnot perform well on the test set (it wont perform well on train data as well).</li>
+<li>OVERFITTING: In this scenario, the model is over-complex and is trying to just memorize the train data, hence it doesnot generalize well on the test data.</li>
+<li>GOOD FIT: In this scenario, the model is neither too simple nor too complex, it is able to learn from the training data and hence it generalizes well to test data as well.</li>
+</ul>
+<p>If you further want to know why we split our data, here is a good explanation: <a href="https://info.salford-systems.com/blog/bid/337783/Why-Data-Scientists-Split-Data-into-Train-and-Test">link</a></p>
 
 </div>
 </div>
@@ -12354,6 +12391,44 @@ When the model is trained with a maximum depth of 1, the model suffers from high
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>notes</strong></p>
+<p>Bias-Variance tradeoff:</p>
+<ul>
+<li>Bad Learning Curve: High Bias<ul>
+<li>When training and testing errors converge and are high<ul>
+<li>No matter how much data we feed the model, the model cannot represent the underlying relationship and has high systematic errors</li>
+<li>Poor fit</li>
+<li>Poor generalization</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Bad Learning Curve: High Variance<ul>
+<li>When there is a large gap between the errors<ul>
+<li>Require data to improve</li>
+<li>Can simplify the model with fewer or less complex features</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Ideal Learning Curve</p>
+<ul>
+<li>Model that generalizes to new data</li>
+<li>Testing and training learning curves converge at similar values</li>
+<li>The smaller the gap, the better our model generalizes</li>
+</ul>
+</li>
+<li><p>Additional info <a href="http://scott.fortmann-roe.com/docs/BiasVariance.html">link</a></p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Question-6---Best-Guess-Optimal-Model">Question 6 - Best-Guess Optimal Model<a class="anchor-link" href="#Question-6---Best-Guess-Optimal-Model">&#182;</a></h3><ul>
 <li>Which maximum depth do you think results in a model that best generalizes to unseen data? </li>
 <li>What intuition lead you to this answer?</li>
@@ -12410,6 +12485,20 @@ The grid search technique is a way of performing hyperparameter optimization thr
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>notes</strong></p>
+<p>It is an algorithm with the help of which we can tune hyper-parameters of a model. We pass the hyper-parameters to tune, the possible values for each hyper-parameter and a performance metric as input to the grid search algorithm. The algorithm will then place all the possible hyper-parameter combination in a grid and then find the performance of the model for each combination against some cross-validation set. Then it outputs the hyper-parameter combination that gives the best result.</p>
+<ul>
+<li><a href="http://scikit-learn.org/stable/modules/grid_search.html#grid-search">scikit-learn's page on grid search</a></li>
+<li><a href="https://www.quora.com/Machine-Learning-How-does-grid-search-work">Quora on how grid search works</a></li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Question-8---Cross-Validation">Question 8 - Cross-Validation<a class="anchor-link" href="#Question-8---Cross-Validation">&#182;</a></h3><ul>
 <li><p>What is the k-fold cross-validation training technique?</p>
 </li>
@@ -12428,6 +12517,25 @@ The grid search technique is a way of performing hyperparameter optimization thr
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong>
 In k-fold cross validation, the <code>k</code> refers to the number of buckets that the data will be separated into. We will then train the model <code>k</code> times, each time using a different bucket for testing and the remaining points for training. Without k-fold cross validation, separating the dataset into 3 partitions (train, validation, test), drastically reduces the number of samples used for training the data. This is especially problematic for smaller data sets. In addition, using the same validation set for grid search makes the result of the grid search highly dependent on the randomization of the split. Hence, to solve this issue, we use k-fold cross validation so that each model can be evaluated multiple times using a larger training set where the performance measure is averaged from the multiple evaluations, hence giving us a more complete picture when doing a grid search to tune the hyperparameters.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>notes</strong></p>
+<ul>
+<li>There is a huge difference between testing and cross-validation.</li>
+<li>K-fold is a cross-validation technique and not a testing technique.</li>
+<li>Suppose you use all your data for training. What do you think will happen in this scenario?</li>
+<li>Your model might overfit or underfit or it might be a good fit as well. If your model is underfitting you will know that from your train scores (which will be low). But if your model is overfitting, your train scores will be high. By first look it would seem you have done a great job in training, but most probably you have not. It is only after you test your model with the test set that you will know the real performance of your model. Using part of train set to test will always give good results if you are getting good train score (since your model is biased towards that data)</li>
+<li>That’s why you always need a test set. But while training you cannot use your test set performance to improve your model, because that would make your model biased towards the test set. Hence you need to do cross-validation.</li>
+<li>Using normal cross-validation also has its disadvantages, since you use up a part of your training data. Hence, here k-fold comes to the rescue.  </li>
+</ul>
+<p>Here is some more info on k-fold CV: <a href="https://magoosh.com/data-science/k-fold-cross-validation/">link</a><br>
+You can check the difference between cross-validation and testing here: <a href="https://stats.stackexchange.com/questions/19048/what-is-the-difference-between-test-set-and-validation-set">link</a></p>
 
 </div>
 </div>
