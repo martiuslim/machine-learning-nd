@@ -12009,6 +12009,20 @@ Percentage of individuals making more than $50,000: 24.78439697492371%
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>notes</strong></p>
+<ul>
+<li>It's a good idea to do more preliminary exploratory data analysis (EDA) using libraries like pandas and seaborn</li>
+<li><a href="https://medium.com/open-machine-learning-course/open-machine-learning-course-topic-1-exploratory-data-analysis-with-pandas-de57880f1a68">EDA using pandas</a></li>
+<li><a href="https://towardsdatascience.com/visualize-world-trends-using-seaborn-in-python-2e563e7d35da">EDA using seaborn</a></li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h2 id="Preparing-the-Data">Preparing the Data<a class="anchor-link" href="#Preparing-the-Data">&#182;</a></h2><p>Before data can be used as input for machine learning algorithms, it often must be cleaned, formatted, and restructured — this is typically known as <strong>preprocessing</strong>. Fortunately, for this dataset, there are no invalid or missing entries we must deal with, however, there are some qualities about certain features that must be adjusted. This preprocessing can help tremendously with the outcome and predictive power of nearly all learning algorithms.</p>
 
@@ -12949,6 +12963,16 @@ Look at the graph at the bottom left from the cell above(the visualization creat
 <p>AdaBoost is a boosting ensemble method that creates a strong classifier from a number of weak classifiers. What this means is that it first builds a model from the training data, then creates a second model that attempts to corrects the errors from the initial model. This keeps going on and more models are subsequently added until the training set is perfectly predicted or the maximum number of models is added.</p>
 <p>Since we are incrementally increasing the performance of the final model using a number of weak classifiers, we mainly need models that achieve accuracy just above random chance on a classification problem. As such, the model is usually trained using decision trees with 1 level, also known as decision stumps. After calculating the error or the misclassification rate for this initial model, a subsequent model is built with added weightage on the errors so that the subsequent model would be able to correct these errors.</p>
 <p>Finally, predictions are made by calculating the weighted average of these number of weak classifiers. The prediction for the ensemble model is taken as a sum of the weighted predictions where the first class is predicted if the sum is positive, second class otherwise.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>notes</strong></p>
+<p>Please note that, it is really good to include an example and run step by step of the algorithm when you try to explain a complex algorithm to a person who doesn't have a technical background. That way the inner workings of an algorithm becomes very easy to grasp. Another approach is to use pictures to show a visual demonstration of how an algorithm works.</p>
 
 </div>
 </div>
