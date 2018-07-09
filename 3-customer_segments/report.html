@@ -12227,7 +12227,19 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
-<p>Here, we attempted to predict the 'Grocery' feature. The reported prediction score was 0.7064, indicating that this feature could be fairly easily predicted using the other features. As such, it may not be as relevant to the model.</p>
+<p>Here, we attempted to predict the 'Grocery' feature. The reported prediction score was 0.7064, indicating that this feature could be fairly easily predicted using the other features. As such, it may not be as relevant to the model as it does not bring much new information to the model.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>notes</strong></p>
+<ul>
+<li><a href="https://www.knime.com/blog/seven-techniques-for-data-dimensionality-reduction">Seven techniques for dimensionality reduction</a></li>
+</ul>
 
 </div>
 </div>
@@ -12377,6 +12389,18 @@ Delicatessen          1.000000
 <p>The dataset is very heavily right skewed where the mean is significantly greater than the median. As such, the dataset follows a non-normal distribution. Seeing that the large number of data points are near 0, this indicates that there are a few significant outliers that may be large scale supermarkets.</p>
 <p>As seen in the correlation heatmap above, 'Grocery' and 'Detergents_Paper' observe significantly high correlation of 0.9246 while 'Grocery' and 'Milk' observe moderately high correlation of 0.6618.</p>
 <p>This confirms that 'Grocery' feature may not be as relevant as there is multicollinearity involved with the 'Grocery' feature.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>notes</strong></p>
+<ul>
+<li><a href="https://www.quora.com/How-do-outliers-affect-normal-distribution-in-statistics">How do outliers affect normal distribution in statistics?</a></li>
+</ul>
 
 </div>
 </div>
@@ -13474,6 +13498,19 @@ Data points considered outliers for the feature &#39;Delicatessen&#39;:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>notes</strong></p>
+<ul>
+<li><a href="https://www.kdnuggets.com/2017/01/3-methods-deal-outliers.html">3 methods to deal with outliers</a></li>
+<li><a href="http://www.theanalysisfactor.com/outliers-to-drop-or-not-to-drop/">Outliers: to drop or not to drop</a></li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Feature-Transformation">Feature Transformation<a class="anchor-link" href="#Feature-Transformation">&#182;</a></h2><p>In this section you will use principal component analysis (PCA) to draw conclusions about the underlying structure of the wholesale customer data. Since using PCA on a dataset calculates the dimensions which best maximize variance, we will find which compound combinations of features best describe customers.</p>
 
 </div>
@@ -13558,6 +13595,25 @@ Data points considered outliers for the feature &#39;Delicatessen&#39;:
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
 <p>72.52% of the variance in the data is explained by the first and second principal component. The first four principal components explain 49.93%, 22.59%, 10.49% and 9.78% of the variance in the data respectively, or 92.79% in total.</p>
+<ul>
+<li>Dimension 1 explains 49.93% of the variance in the data and is well represented by high positive variances in the 'Detergent_Paper', 'Grocery' and 'Milk' features, indicating spending on groceries such as coffee, tea related expenses.</li>
+<li>Dimension 2 explains 22.59% of the variance in the data and is very well represented by high positive variances in 'Fresh', 'Frozen' and 'Delicatessen' features which indicates spending on food.</li>
+<li>Dimension 3 explains 10.49% of the variance in the data and is well represented by negative variances in 'Fresh' and 'Detergents_Paper', positive variances in 'Delicatessen' and 'Frozen, retail selling non-fresh foods.</li>
+<li>Dimension 4 explains 9.78% of the variance in the data and is well represented by negative variances in 'Frozen' and 'Detergents_Paper' and positive variances in 'Delicatessen' and 'Fresh' indicating fresh food grocers.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>notes</strong></p>
+<ul>
+<li><a href="http://setosa.io/ev/principal-component-analysis/">Visual example of PCA</a></li>
+<li><a href="https://onlinecourses.science.psu.edu/stat505/node/54/">Interpretation of the Principal Components</a></li>
+</ul>
 
 </div>
 </div>
@@ -13885,6 +13941,19 @@ Data points considered outliers for the feature &#39;Delicatessen&#39;:
 </li>
 <li><p>Considering that the wholesale customer data has significant variations in the dataset, it may be better in this case to use the GMM. Customers of different sizes (for example, a small grocer vs a large supermarket) would have very different purchasing requirements despite possibly being similar in the purchase distribution.</p>
 </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>notes</strong></p>
+<ul>
+<li><a href="https://ultraquartz.wordpress.com/2016/04/22/difference-between-k-means-and-gmm/">Difference between K-Means clustering and Gaussian Mixture Models (GMM)</a></li>
+<li><a href="https://davidrosenberg.github.io/ml2015/docs/13.mixture-models.pdf">K-Means and Gaussian Mixture Models</a></li>
 </ul>
 
 </div>
@@ -14361,6 +14430,19 @@ Sample point 2 predicted to be in Cluster 0
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
 <p>Now that the wholesale distributor is able to see the customer segments in a clearer light, the distributor can run the A/B tests on a sample of customers in each of the clusters rather than a random sample throughout all the customers. This will ensure that the wholesale distributor is able to get a more representative view of the customers based on the segments they are clustered in since it would be unwise to assume that the change would affect all customers equally.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>notes</strong></p>
+<ul>
+<li><a href="https://medium.com/netflix-techblog/its-all-a-bout-testing-the-netflix-experimentation-platform-4e1ca458c15">A/B Testing on Netflix</a></li>
+<li><a href="https://www.quora.com/When-should-A-B-testing-not-be-trusted-to-make-decisions/answer/Edwin-Chen-1">Problems in A/B Testing</a></li>
+</ul>
 
 </div>
 </div>
