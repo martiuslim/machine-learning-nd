@@ -12145,6 +12145,25 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>notes</strong></p>
+<ul>
+<li>As seen later, the features' distribution is highly <em>right-skewed</em>, therefore the median would probably serve as a better reference than the mean. As such, comparing to the quartiles may give a better idea of the nature of the establishments represented. </li>
+</ul>
+<p>Example code to plot percentile heatmap for sample points:</p>
+
+<pre><code>import seaborn as sns
+
+percentiles_data = 100*data.rank(pct=True)
+percentiles_samples = percentiles_data.iloc[indices]
+sns.heatmap(percentiles_samples, annot=True)</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Implementation:-Feature-Relevance">Implementation: Feature Relevance<a class="anchor-link" href="#Implementation:-Feature-Relevance">&#182;</a></h3><p>One interesting thought to consider is if one (or more) of the six product categories is actually relevant for understanding customer purchasing. That is to say, is it possible to determine whether customers purchasing some amount of one category of products will necessarily purchase some proportional amount of another category of products? We can make this determination quite easily by training a supervised regression learner on a subset of the data with one feature removed, and then score how well that model can predict the removed feature.</p>
 <p>In the code block below, you will need to implement the following:</p>
 <ul>
@@ -12239,6 +12258,7 @@ div#notebook {
 <p><strong>notes</strong></p>
 <ul>
 <li><a href="https://www.knime.com/blog/seven-techniques-for-data-dimensionality-reduction">Seven techniques for dimensionality reduction</a></li>
+<li>Your choice of random states can have a huge influence on the R^2-score obtained, which could, in turn, have an influence on your interpretation of the relevance of a feature. To mitigate this, you can average the R^2-scores over many iterations, say 100, without setting any of the random states.</li>
 </ul>
 
 </div>
@@ -12400,6 +12420,9 @@ Delicatessen          1.000000
 <p><strong>notes</strong></p>
 <ul>
 <li><a href="https://www.quora.com/How-do-outliers-affect-normal-distribution-in-statistics">How do outliers affect normal distribution in statistics?</a></li>
+<li>The most significant correlation is definitely between <code>Grocery</code> and <code>Detergents_Paper</code>. <code>Milk</code> is also correlated with both these features, but the correlation is relatively mild.</li>
+<li>The high correlation between <code>Grocery</code> and <code>Detergents_Paper</code>, indeed, complements your interpretation from the previous question. We do get additional information if we keep both of <code>Grocery</code> and <code>Detergents_Paper</code> in the dataset, but we can drop one just in case we severely need to reduce the dimensionality of our feature space. Later, we will see a better way of reducing the dimensionality of our dataset - PCA.</li>
+<li>Clustering algorithms discussed in this project work under the assumption that the data features are (roughly) normally distributed. Significant deviation from zero skewness indicates that we must apply some kind of normalisation to make the features normally distributed.</li>
 </ul>
 
 </div>
@@ -13502,6 +13525,9 @@ Data points considered outliers for the feature &#39;Delicatessen&#39;:
 <ul>
 <li><a href="https://www.kdnuggets.com/2017/01/3-methods-deal-outliers.html">3 methods to deal with outliers</a></li>
 <li><a href="http://www.theanalysisfactor.com/outliers-to-drop-or-not-to-drop/">Outliers: to drop or not to drop</a></li>
+<li>You make an excellent point regarding the impact of outliers on clustering algorithms because of the distance averaging involved. In the context of this project, apart from causing some deviation in the cluster boundaries and centers, one might even be persuaded by the subsequent silhouette analysis to consider an additional cluster just to accommodate the outliers.</li>
+<li>However, it is also important to achieve a compromise between removing outliers to get better clustering results, and not removing too much useful information. The set of all the Tukey outliers, forming around 10% of our dataset, is too huge to be removed without a particularly strong reason. Therefore, one might choose to remove only the "extreme" outliers, where "extreme" is reasonably defined, for example, the outliers for more than one features, and/or outliers obtained by increasing the step size in Tukey's method.</li>
+<li>This also explains the emphasis that the question puts on identifying the multiple-feature outliers.</li>
 </ul>
 
 </div>
@@ -13613,7 +13639,12 @@ Data points considered outliers for the feature &#39;Delicatessen&#39;:
 <ul>
 <li><a href="http://setosa.io/ev/principal-component-analysis/">Visual example of PCA</a></li>
 <li><a href="https://onlinecourses.science.psu.edu/stat505/node/54/">Interpretation of the Principal Components</a></li>
+<li>A high/low (absolute) value along the PCA dimension can help differentiate between different types of customers. For example, a dimension giving relatively high (positive or negative) weights to <code>Fresh</code>, <code>Milk</code>, <code>Frozen</code> and <code>Delicatessen</code> would likely separate out the restaurants from the other types of customers.</li>
+<li>A corollary of the above remark is that the sign of a PCA dimension itself is not important, only the relative signs of features forming the PCA dimension are important. In fact, on running the PCA code again, one might get the PCA dimensions with the signs inversed. For an intuition about this, it is helpful to think about a vector and its negative in 3-D space - both are essentially representing the same direction in space. You might find this <a href="https://stats.stackexchange.com/questions/88880/does-the-sign-of-scores-or-of-loadings-in-pca-or-fa-have-a-meaning-may-i-revers">exchange</a> informative in this context.</li>
 </ul>
+<p>Code tip for computing cumulative explained variance:</p>
+
+<pre><code>print pca_results['Explained Variance'].cumsum()</code></pre>
 
 </div>
 </div>
@@ -13954,6 +13985,9 @@ Data points considered outliers for the feature &#39;Delicatessen&#39;:
 <ul>
 <li><a href="https://ultraquartz.wordpress.com/2016/04/22/difference-between-k-means-and-gmm/">Difference between K-Means clustering and Gaussian Mixture Models (GMM)</a></li>
 <li><a href="https://davidrosenberg.github.io/ml2015/docs/13.mixture-models.pdf">K-Means and Gaussian Mixture Models</a></li>
+<li>From a practical standpoint, the main criteria for deciding between these two algorithms are the speed v/s second order information (confidence levels) desired and the underlying structure of our data. </li>
+<li>Both the algorithms will do fine here, although considering the fact that there are no visually separable clusters in the biplot, one might, indeed, prefer the soft-clustering approach of GMM, particularly since the dataset is quite small and scalability is not an issue.</li>
+<li>For large datasets, an alternative strategy could be to go with the faster KMeans for preliminary analysis, and if you later think that the results could be significantly improved, use GMM in the next step while using the cluster assignments and centres obtained from KMeans as the initialisation for GMM. In fact, many implementations of GMM automatically perform this preliminary step for initialisation.</li>
 </ul>
 
 </div>
@@ -14116,6 +14150,22 @@ number of clusters=10, silhouette_score=0.30173826197844605
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong> The silhouette scores for clusters 2-10 are shown above. Cluster number = 2 results in the best silhouette score.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>notes</strong></p>
+<h3 id="Important-remark-regarding-the-choice-of-outliers:">Important remark regarding the choice of outliers:<a class="anchor-link" href="#Important-remark-regarding-the-choice-of-outliers:">&#182;</a></h3><p>This is one place where your choice of outliers plays a huge role. For example, repeat the analysis without removing any outlier. What is the optimal number of clusters that you get?</p>
+<h3 id="Miscellaneous-remarks:">Miscellaneous remarks:<a class="anchor-link" href="#Miscellaneous-remarks:">&#182;</a></h3><ul>
+<li>If you want to get more support for your results obtained using silhouette analysis, one way is to check how balanced are the clusters obtained from different values of <code>number of clusters</code>, using the code given at this <a href="http://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html#sphx-glr-auto-examples-cluster-plot-kmeans-silhouette-analysis-py">link</a>.</li>
+<li>Remark that in certain cases, you can even choose a value for <code>number of clusters</code> which gives a sub-optimal score. For example, in the link provided, 2 is not considered optimal, despite having a better Silhouette score, because it doesn't result in balanced clusters, while 4 does.</li>
+<li>From <a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_samples.html">sklearn documentation</a>, the Silhouette Coefficient is calculated using the mean intra-cluster distance and the mean nearest-cluster distance for each sample. Therefore, it makes sense to use the same distance metric here as the one used in the clustering algorithm. This is <code>Euclidean</code> for KMeans (default metric for Silhouette score) and <code>Mahalanobis</code> for general GMM.</li>
+<li>For GMM, <a href="http://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html">BIC</a> could sometimes be a better criterion for deciding on the optimal number of clusters, since it takes into account the probability information provided by GMM. I leave you to experiment with this.</li>
+</ul>
 
 </div>
 </div>
@@ -14340,6 +14390,18 @@ number of clusters=10, silhouette_score=0.30173826197844605
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>notes</strong></p>
+<ul>
+<li>As remarked in Q1, the median/quartiles might have been better reference than the mean for comparison because of the skewed distribution of our data. You can easily tweak the code provided in the comment to Q1, to get the percentile heatmap for <code>true_centers</code>.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Question-9">Question 9<a class="anchor-link" href="#Question-9">&#182;</a></h3><ul>
 <li>For each sample point, which customer segment from<em> <strong>Question 8</strong> </em>best represents it? </li>
 <li>Are the predictions for each sample point consistent with this?*</li>
@@ -14398,6 +14460,18 @@ Sample point 2 predicted to be in Cluster 0
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>notes</strong></p>
+<ul>
+<li>One interesting point to note from the <code>cluster_visualization</code> plot is that the two clusters are essentially separated by a value on the first PCA dimension, which we saw earlier is predominantly a combination of <code>Detergents_Paper</code>, <code>Grocery</code> and <code>Milk</code>. The rest of the features, which figure prominently only in the second PCA dimension, don't really matter!</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2>
 </div>
 </div>
@@ -14442,6 +14516,7 @@ Sample point 2 predicted to be in Cluster 0
 <ul>
 <li><a href="https://medium.com/netflix-techblog/its-all-a-bout-testing-the-netflix-experimentation-platform-4e1ca458c15">A/B Testing on Netflix</a></li>
 <li><a href="https://www.quora.com/When-should-A-B-testing-not-be-trusted-to-make-decisions/answer/Edwin-Chen-1">Problems in A/B Testing</a></li>
+<li>Excellent! You have correctly identified the key point here which is to conduct the A/B test on each segment independently, since in A/B testing, everything besides the testing parameter should remain as similar as possible for both the experiment (A) and the control (B) groups, so that we can study the change in behavior caused by the testing parameter.</li>
 </ul>
 
 </div>
@@ -14535,6 +14610,29 @@ Sample point 2 predicted to be in Cluster 0
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
 <p>The clustering algorithm and number of clusters chosen earlier compares quite well to this underlying distribution. Even though the two clusters can be seen distinctly, there is still overlap between the two clusters. As such, there are still certain customer segments that would be classified as purely 'Retailers' or 'Hotels/Restaurants/Cafes' by the distribution. I actually got the classifications the other way round, where I defined segment 0 as the 'Cafes' and segment 1 as the 'Grocers'.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>notes</strong></p>
+<ul>
+<li>Nice summary of your clustering analysis. And good choice of using GMM, as the clusters do have a fair amount of overlap in reality. Although a perfect classification is not possible to achieve, soft clustering gives us confidence levels in our predictions, which would understandably be low at the boundary between two clusters.</li>
+</ul>
+<p>Code tip for calculating the accuracy score for clustering:</p>
+
+<pre><code>channel_labels = pd.read_csv("customers.csv")["Channel"]
+channel_labels = channel_labels.drop(channel_labels.index[outliers]).reset_index(drop = True) - 1
+# channel_labels = abs(channel_labels -1)
+from sklearn.metrics import accuracy_score
+accuracy = accuracy_score(channel_labels,preds)</code></pre>
+<ul>
+<li>Note that I've subtracted 1 from <code>channel_labels</code>, because the given <code>channel_labels</code> are <code>1</code> and <code>2</code>, while our cluster-labels are <code>0</code> and <code>1</code>.</li>
+<li>Also, note that the assignment of labels - 0 and 1 - in the clustering algorithm is completely arbitrary. Therefore, you might have to keep or remove <code>channel_labels = abs(channel_labels -1)</code> in the above code, to ensure that the cluster and channel labels are "compatible".</li>
+</ul>
 
 </div>
 </div>
